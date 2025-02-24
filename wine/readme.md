@@ -31,11 +31,11 @@ wine ./Xgpro.exe 2>/dev/null
 #### How to compile:
 1. Install `wine`, `wine-devel`, `libusb-1.0-0-dev:i386`, `libudev-dev:i386` packages
 
-2. Run `make hotplug=udev` to compile the `setupapi.dll` using `udev` library for hotplug notifications subsystem.      
-Running only `make` will compile the `setupapi.dll` using `libusb` library for handling hotplug events which can    
-be useful if `udev` subsystem is not available in your OS.      
+2. Run `make` to compile the `setupapi.dll` using `libusb` library for hotplug events.
+You can also use `libudev` to compile the `setupapi.dll` using `libudev` library for handling hotplug events which can    
+be useful if `libusb` hotplug events arenot available in your OS by running `make hotplug=udev`   
 
-4. Copy the  `setupapi.dll` file in the Minipro/Xgpro folder
+3. Copy the resulted  `setupapi.dll` file in the Minipro/Xgpro folder
 
 
 #### Debugging:
@@ -57,7 +57,7 @@ WINEDEBUG=fixme-all,-ALL WINELOADERNOEXEC=1 gdb -q --args wine ./Xgpro.exe
 Some Linux distros will compile its system libraries with [SSE](https://en.wikipedia.org/wiki/Streaming_SIMD_Extensions) instruction set enabled to increase the performance.   
 This is a good thing but, using a `Libusb` compiled with SSE will crash our wine wrapper library because the SSE intruction   
 set requires the memory address to be 16-byte aligned and, our `setupapi.dll` uses 4 bytes stack alignment because   
-the 32bit Windows software also use this 4 byte alignment. See issue [#51](https://github.com/radiomanV/TL866/issues/51).      
+the 32bit Windows software is also using this 4 byte alignment. See issue [#51](https://github.com/radiomanV/TL866/issues/51).      
 
 This is the case for Arch/ManjaroGentoo and its derivatives and perhaps other distros i have not tested yet.   
 In this case we must compile our Libusb and use it to link the `setupapi.dll` against it.   
